@@ -20,7 +20,6 @@ def chat():
 def chat_api():
     try:
         data = request.get_json()
-        print("📩 Received:", data)  # Log buat debug
         
         api_key = data.get('api_key', '').strip()
         model = data.get('model', 'mistralai/mistral-7b-instruct:free')
@@ -33,9 +32,8 @@ def chat_api():
         if not message:
             return jsonify({'error': 'Pesan tidak boleh kosong'}), 400
 
-        # Build messages
         messages = [
-            {"role": "system", "content": "Kamu adalah CobaltAI, asisten AI yang cerdas dan membantu. Jawab dengan bahasa Indonesia yang baik."}
+            {"role": "system", "content": "Kamu adalah CobaltAI, asisten AI yang cerdas. Jawab dalam bahasa Indonesia."}
         ]
         
         for h in history:
@@ -55,20 +53,17 @@ def chat_api():
             "max_tokens": 2048
         }
 
-        print("📤 Sending to OpenRouter...")
         response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions", 
-            headers=headers, 
-            json=payload, 
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=payload,
             timeout=60
         )
         
-        print("📥 Response status:", response.status_code)
-        
         if response.status_code != 200:
-            error_detail = response.json() if response.text else {}
-            print("❌ Error detail:", error_detail)
-            return jsonify({'error': f'OpenRouter error: {error_detail.get("error", {}).get("message", "Unknown")}'}), response.status_code
+            error_data = response.json() if response.text else {}
+            error_msg = error_data.get('error', {}).get('message', 'Unknown error')
+            return jsonify({'error': f'OpenRouter: {error_msg}'}), response.status_code
         
         result = response.json()
         ai_response = result['choices'][0]['message']['content']
@@ -78,14 +73,9 @@ def chat_api():
             'response': ai_response
         })
         
-    except requests.exceptions.Timeout:
-        return jsonify({'error': 'Request timeout, coba lagi'}), 504
-    except requests.exceptions.RequestException as e:
-        print(f"❌ Request error: {e}")
-        return jsonify({'error': f'Gagal menghubungi OpenRouter: {str(e)}'}), 500
     except Exception as e:
-        print(f"❌ Unexpected error: {e}")
-        return jsonify({'error': f'Terjadi kesalahan: {str(e)}'}), 500
+        print(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/health')
 def health():
