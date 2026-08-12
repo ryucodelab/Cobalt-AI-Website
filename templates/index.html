@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>CobaltAI — Login</title>
+    <title>CobaltAI — Setup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -51,8 +51,6 @@
         .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px -4px rgba(34,225,255,0.6); }
         .btn-primary:active { transform: scale(0.98); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .link-cyan { color: #22E1FF; }
-        .link-cyan:hover { color: #6C8CFF; text-decoration: underline; }
         .error-text { color: #EF4444; font-size: 13px; margin-top: 4px; }
         .success-text { color: #22C55E; font-size: 13px; margin-top: 4px; }
         .hidden { display: none !important; }
@@ -79,270 +77,161 @@
                     </div>
                     <span class="text-2xl font-bold tracking-tight" style="font-family:'Plus Jakarta Sans',sans-serif;">Cobalt<span style="color:#22E1FF;">AI</span></span>
                 </div>
-                <p class="text-sm text-[#92A0B8] mt-2" id="pageSubtitle">Masuk untuk melanjutkan</p>
+                <p class="text-sm text-[#92A0B8] mt-2">Masukkan API Key untuk memulai</p>
             </div>
 
-            <!-- ====== LOGIN FORM ====== -->
-            <div id="loginForm">
-                <form id="loginFormElement" onsubmit="return handleLogin(event)">
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">Username</label>
-                            <input type="text" id="loginUsername" placeholder="Masukkan username" class="input-dark w-full rounded-xl px-4 py-3 text-sm" required />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">Password</label>
-                            <input type="password" id="loginPassword" placeholder="Masukkan password" class="input-dark w-full rounded-xl px-4 py-3 text-sm" required />
-                        </div>
-                    </div>
-                    <div id="loginError" class="error-text hidden mt-3"></div>
-                    <button type="submit" id="loginBtn" class="btn-primary w-full rounded-xl py-3.5 text-sm font-semibold text-[#06101f] mt-6 transition">
-                        Masuk
-                    </button>
-                </form>
-                <p class="text-center text-sm text-[#5C6980] mt-4">
-                    Belum punya akun?
-                    <button type="button" onclick="showRegister()" class="link-cyan bg-transparent border-0 cursor-pointer font-medium text-sm">
-                        Daftar
-                    </button>
-                </p>
-            </div>
-
-            <!-- ====== REGISTER FORM ====== -->
-            <div id="registerForm" class="hidden">
-                <form id="registerFormElement" onsubmit="return handleRegister(event)">
-                    <div class="space-y-3.5">
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">Nama Depan</label>
-                                <input type="text" id="regFirstName" placeholder="Nama depan" class="input-dark w-full rounded-xl px-4 py-3 text-sm" required />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">Nama Belakang</label>
-                                <input type="text" id="regLastName" placeholder="Nama belakang" class="input-dark w-full rounded-xl px-4 py-3 text-sm" required />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">Username</label>
-                            <input type="text" id="regUsername" placeholder="Pilih username" class="input-dark w-full rounded-xl px-4 py-3 text-sm" required />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">Password</label>
-                            <input type="password" id="regPassword" placeholder="Minimal 6 karakter" class="input-dark w-full rounded-xl px-4 py-3 text-sm" required minlength="6" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">Konfirmasi Password</label>
-                            <input type="password" id="regConfirmPassword" placeholder="Ulangi password" class="input-dark w-full rounded-xl px-4 py-3 text-sm" required />
-                        </div>
-                    </div>
-                    <div id="registerError" class="error-text hidden mt-3"></div>
-                    <div id="registerSuccess" class="success-text hidden mt-3"></div>
-
-                    <!-- PERINGATAN -->
-                    <div class="mt-4 p-3 rounded-xl text-xs" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#FCA5A5;">
-                        ⚠️ <strong>Tidak ada verifikasi email.</strong> Simpan baik-baik username dan password Anda!
+            <!-- ====== FORM SETUP ====== -->
+            <form id="setupForm" onsubmit="return handleSetup(event)">
+                <div class="space-y-4">
+                    <!-- OpenRouter API Key -->
+                    <div>
+                        <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">🔑 OpenRouter API Key</label>
+                        <input 
+                            type="password" 
+                            id="apiKey" 
+                            placeholder="sk-or-v1-xxxxx" 
+                            class="input-dark w-full rounded-xl px-4 py-3 text-sm" 
+                            required 
+                        />
+                        <p class="text-xs text-[#5C6980] mt-1.5">
+                            Dapatkan di <a href="https://openrouter.ai/keys" target="_blank" class="text-[#22E1FF] hover:underline">openrouter.ai/keys</a>
+                        </p>
                     </div>
 
-                    <button type="submit" id="registerBtn" class="btn-primary w-full rounded-xl py-3.5 text-sm font-semibold text-[#06101f] mt-4 transition">
-                        Daftar
-                    </button>
-                </form>
-                <p class="text-center text-sm text-[#5C6980] mt-4">
-                    Sudah punya akun?
-                    <button type="button" onclick="showLogin()" class="link-cyan bg-transparent border-0 cursor-pointer font-medium text-sm">
-                        Masuk
-                    </button>
-                </p>
-            </div>
+                    <!-- Model -->
+                    <div>
+                        <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">🧠 Model</label>
+                        <select id="model" class="input-dark w-full rounded-xl px-4 py-3 text-sm appearance-none">
+                            <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (Free)</option>
+                            <option value="meta-llama/llama-3.2-3b-instruct:free">Llama 3.2 3B (Free)</option>
+                            <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (Free)</option>
+                            <option value="microsoft/phi-3-mini-128k-instruct:free">Phi-3 Mini (Free)</option>
+                            <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
+                            <option value="openai/gpt-4o">GPT-4o</option>
+                            <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+                            <option value="openai/o3-mini">OpenAI o3-mini</option>
+                        </select>
+                    </div>
 
+                    <!-- Style Website -->
+                    <div>
+                        <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">🎨 Style Website</label>
+                        <select id="style" class="input-dark w-full rounded-xl px-4 py-3 text-sm appearance-none">
+                            <option value="dark-glass">Dark Glassmorphism (Default)</option>
+                            <option value="dark-minimal">Dark Minimalis</option>
+                            <option value="light-glass">Light Glassmorphism</option>
+                            <option value="cyberpunk">Cyberpunk Neon</option>
+                            <option value="forest">Forest Green</option>
+                            <option value="ocean">Ocean Blue</option>
+                            <option value="sunset">Sunset Orange</option>
+                            <option value="monochrome">Monochrome</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="errorMessage" class="error-text hidden mt-3"></div>
+                <div id="successMessage" class="success-text hidden mt-3"></div>
+
+                <!-- PERINGATAN -->
+                <div class="mt-4 p-3 rounded-xl text-xs" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#FCA5A5;">
+                    ⚠️ API Key disimpan di localStorage browser. Jangan bagikan ke siapa pun!
+                </div>
+
+                <button type="submit" id="setupBtn" class="btn-primary w-full rounded-xl py-3.5 text-sm font-semibold text-[#06101f] mt-4 transition">
+                    🚀 Mulai Chat
+                </button>
+            </form>
+
+            <!-- Footer -->
+            <p class="text-center text-xs text-[#5C6980] mt-6">
+                CobaltAI — Gunakan API Key Anda sendiri. Privasi terjaga.
+            </p>
         </div>
     </div>
 
     <script>
-        // ====== DOM REFS ======
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const loginError = document.getElementById('loginError');
-        const registerError = document.getElementById('registerError');
-        const registerSuccess = document.getElementById('registerSuccess');
-        const pageSubtitle = document.getElementById('pageSubtitle');
+        const setupForm = document.getElementById('setupForm');
+        const apiKeyInput = document.getElementById('apiKey');
+        const modelSelect = document.getElementById('model');
+        const styleSelect = document.getElementById('style');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const setupBtn = document.getElementById('setupBtn');
 
-        // ====== SHOW/HIDE ======
-        function showRegister() {
-            loginForm.classList.add('hidden');
-            registerForm.classList.remove('hidden');
-            pageSubtitle.textContent = 'Buat akun CobaltAI';
-            loginError.classList.add('hidden');
-            registerError.classList.add('hidden');
-            registerSuccess.classList.add('hidden');
-        }
+        // ====== CEK APAKAH UDAH ADA SETUP ======
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedApiKey = localStorage.getItem('openrouter_api_key');
+            const savedModel = localStorage.getItem('openrouter_model');
+            const savedStyle = localStorage.getItem('cobaltai_style');
 
-        function showLogin() {
-            registerForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-            pageSubtitle.textContent = 'Masuk untuk melanjutkan';
-            loginError.classList.add('hidden');
-            registerError.classList.add('hidden');
-            registerSuccess.classList.add('hidden');
-        }
+            if (savedApiKey && savedModel) {
+                // Langsung redirect ke chat
+                window.location.href = '/chat';
+            }
+        });
 
-        // ====== HANDLE LOGIN ======
-        async function handleLogin(e) {
+        // ====== HANDLE SETUP ======
+        async function handleSetup(e) {
             e.preventDefault();
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            const btn = document.getElementById('loginBtn');
-            const errorEl = document.getElementById('loginError');
 
-            if (!username || !password) {
-                errorEl.textContent = 'Username dan password wajib diisi';
-                errorEl.classList.remove('hidden');
+            const apiKey = apiKeyInput.value.trim();
+            const model = modelSelect.value;
+            const style = styleSelect.value;
+
+            if (!apiKey) {
+                errorMessage.textContent = 'API Key tidak boleh kosong!';
+                errorMessage.classList.remove('hidden');
+                successMessage.classList.add('hidden');
                 return false;
             }
 
-            btn.disabled = true;
-            btn.textContent = '⏳ Memproses...';
-            errorEl.classList.add('hidden');
+            if (!apiKey.startsWith('sk-or-v1-') && !apiKey.startsWith('sk-')) {
+                errorMessage.textContent = '⚠️ Format API Key tidak valid. Pastikan dari OpenRouter.';
+                errorMessage.classList.remove('hidden');
+                successMessage.classList.add('hidden');
+                return false;
+            }
+
+            // Disable button
+            setupBtn.disabled = true;
+            setupBtn.textContent = '⏳ Verifikasi...';
+            errorMessage.classList.add('hidden');
+            successMessage.classList.add('hidden');
 
             try {
-                const response = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
+                // TEST API Key dengan panggilan sederhana
+                const testResponse = await fetch('https://openrouter.ai/api/v1/auth/key', {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`
+                    }
                 });
 
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'Login gagal');
+                if (!testResponse.ok) {
+                    throw new Error('API Key tidak valid. Cek kembali.');
                 }
 
-                // Simpan token
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
+                // Simpan ke localStorage
+                localStorage.setItem('openrouter_api_key', apiKey);
+                localStorage.setItem('openrouter_model', model);
+                localStorage.setItem('cobaltai_style', style);
+
+                successMessage.textContent = '✅ Setup berhasil! Mengalihkan ke chat...';
+                successMessage.classList.remove('hidden');
 
                 // Redirect ke chat
-                window.location.href = '/chat';
-
-            } catch (error) {
-                errorEl.textContent = error.message;
-                errorEl.classList.remove('hidden');
-                btn.disabled = false;
-                btn.textContent = 'Masuk';
-            }
-
-            return false;
-        }
-
-        // ====== HANDLE REGISTER ======
-        async function handleRegister(e) {
-            e.preventDefault();
-            const firstName = document.getElementById('regFirstName').value.trim();
-            const lastName = document.getElementById('regLastName').value.trim();
-            const username = document.getElementById('regUsername').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirmPassword').value;
-            const btn = document.getElementById('registerBtn');
-            const errorEl = document.getElementById('registerError');
-            const successEl = document.getElementById('registerSuccess');
-
-            // Validasi
-            if (!firstName || !lastName || !username || !password || !confirmPassword) {
-                errorEl.textContent = 'Semua field wajib diisi';
-                errorEl.classList.remove('hidden');
-                successEl.classList.add('hidden');
-                return false;
-            }
-
-            if (username.length < 3) {
-                errorEl.textContent = 'Username minimal 3 karakter';
-                errorEl.classList.remove('hidden');
-                successEl.classList.add('hidden');
-                return false;
-            }
-
-            if (password.length < 6) {
-                errorEl.textContent = 'Password minimal 6 karakter';
-                errorEl.classList.remove('hidden');
-                successEl.classList.add('hidden');
-                return false;
-            }
-
-            if (password !== confirmPassword) {
-                errorEl.textContent = 'Password dan konfirmasi password tidak cocok';
-                errorEl.classList.remove('hidden');
-                successEl.classList.add('hidden');
-                return false;
-            }
-
-            btn.disabled = true;
-            btn.textContent = '⏳ Mendaftar...';
-            errorEl.classList.add('hidden');
-            successEl.classList.add('hidden');
-
-            try {
-                const response = await fetch('/api/auth/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        username, 
-                        password,
-                        first_name: firstName,
-                        last_name: lastName
-                    })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'Registrasi gagal');
-                }
-
-                // Simpan token
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-
-                // Tampilkan sukses
-                successEl.textContent = '✅ Registrasi berhasil! Mengalihkan...';
-                successEl.classList.remove('hidden');
-
-                // Redirect setelah 1.5 detik
                 setTimeout(() => {
                     window.location.href = '/chat';
                 }, 1500);
 
             } catch (error) {
-                errorEl.textContent = error.message;
-                errorEl.classList.remove('hidden');
-                btn.disabled = false;
-                btn.textContent = 'Daftar';
+                errorMessage.textContent = error.message || 'Gagal verifikasi API Key. Coba lagi.';
+                errorMessage.classList.remove('hidden');
+                setupBtn.disabled = false;
+                setupBtn.textContent = '🚀 Mulai Chat';
             }
 
             return false;
         }
-
-        // ====== CEK TOKEN SAAT LOAD ======
-        document.addEventListener('DOMContentLoaded', function() {
-            const token = localStorage.getItem('token');
-            if (token) {
-                // Coba verify token
-                fetch('/api/auth/me', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                })
-                .then(res => {
-                    if (res.ok) {
-                        window.location.href = '/chat';
-                    } else {
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('user');
-                    }
-                })
-                .catch(() => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                });
-            }
-        });
     </script>
 
 </body>
