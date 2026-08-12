@@ -76,7 +76,7 @@ def get_user_from_token(token):
     
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute("SELECT id, username FROM users WHERE id = %s", (payload['user_id'],))
+        cur.execute("SELECT id, username, first_name, last_name FROM users WHERE id = %s", (payload['user_id'],))
         user = cur.fetchone()
         cur.close()
         conn.close()
@@ -138,16 +138,22 @@ def call_openrouter(user_message, history=None):
 
 @app.route('/')
 def index():
-    """Halaman utama"""
+    """Halaman utama (login/register)"""
     return render_template('index.html')
+
+@app.route('/chat')
+def chat():
+    """Halaman chat (setelah login)"""
+    return render_template('chat.html')
 
 @app.route('/api/health')
 def health():
     """Cek status server"""
+    conn = get_db_connection()
     return jsonify({
         'status': 'online',
         'version': '2.0.0',
-        'database': 'connected' if get_db_connection() else 'disconnected',
+        'database': 'connected' if conn else 'disconnected',
         'openrouter': 'configured' if OPENROUTER_API_KEY else 'not configured'
     })
 
@@ -157,9 +163,15 @@ def register():
     data = request.get_json()
     username = data.get('username', '').strip()
     password = data.get('password', '').strip()
+    first_name = data.get('first_name', '').strip()
+    last_name = data.get('last_name', '').strip()
     
+    # Validasi
     if not username or not password:
         return jsonify({'error': 'Username dan password wajib diisi'}), 400
+    
+    if not first_name or not last_name:
+        return jsonify({'error': 'Nama depan dan nama belakang wajib diisi'}), 400
     
     if len(username) < 3 or len(username) > 50:
         return jsonify({'error': 'Username minimal 3 dan maksimal 50 karakter'}), 400
@@ -181,11 +193,12 @@ def register():
             conn.close()
             return jsonify({'error': 'Username sudah digunakan'}), 400
         
-        # Insert user
+        # Insert user dengan first_name & last_name
         hashed = hash_password(password)
         cur.execute(
-            "INSERT INTO users (username, password_hash) VALUES (%s, %s) RETURNING id",
-            (username, hashed)
+            """INSERT INTO users (username, password_hash, first_name, last_name) 
+               VALUES (%s, %s, %s, %s) RETURNING id""",
+            (username, hashed, first_name, last_name)
         )
         user_id = cur.fetchone()[0]
         conn.commit()
@@ -199,12 +212,17 @@ def register():
         return jsonify({
             'success': True,
             'token': token,
-            'user': {'id': user_id, 'username': username}
+            'user': {
+                'id': user_id, 
+                'username': username,
+                'first_name': first_name,
+                'last_name': last_name
+            }
         })
         
     except Exception as e:
         print(f"Register error: {e}")
-        return jsonify({'error': 'Terjadi kesalahan'}), 500
+        return jsonify({'error': 'Terjadi kesalahan saat registrasi'}), 500
 
 @app.route('/api/auth/login', methods=['POST'])
 def login():
@@ -222,7 +240,10 @@ def login():
     
     try:
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute("SELECT id, username, password_hash FROM users WHERE username = %s", (username,))
+        cur.execute(
+            "SELECT id, username, password_hash, first_name, last_name FROM users WHERE username = %s", 
+            (username,)
+        )
         user = cur.fetchone()
         cur.close()
         conn.close()
@@ -238,12 +259,17 @@ def login():
         return jsonify({
             'success': True,
             'token': token,
-            'user': {'id': user['id'], 'username': user['username']}
+            'user': {
+                'id': user['id'], 
+                'username': user['username'],
+                'first_name': user['first_name'],
+                'last_name': user['last_name']
+            }
         })
         
     except Exception as e:
         print(f"Login error: {e}")
-        return jsonify({'error': 'Terjadi kesalahan'}), 500
+        return jsonify({'error': 'Terjadi kesalahan saat login'}), 500
 
 @app.route('/api/auth/me', methods=['GET'])
 def me():
@@ -275,7 +301,7 @@ def chat():
     if not message:
         return jsonify({'error': 'Pesan tidak boleh kosong'}), 400
     
-    # Ambil history dari DB (5 chat terakhir)
+    # Ambil history dari DB (10 chat terakhir)
     conn = get_db_connection()
     history = []
     if conn:
@@ -425,11 +451,13 @@ def clear_history():
 # ==================== MAIN ====================
 
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
     print("=" * 50)
     print("🚀 CobaltAI - Backend")
     print("=" * 50)
-    print(f"📍 Running on: http://0.0.0.0:{os.environ.get('PORT', 5000)}")
+    print(f"📍 Running on: http://0.0.0.0:{port}")
     print(f"🔑 OpenRouter: {'✅ Configured' if OPENROUTER_API_KEY else '❌ NOT SET'}")
     print(f"💾 Database: {'✅ Connected' if get_db_connection() else '❌ NOT CONNECTED'}")
+    print(f"🧠 Model: {DEFAULT_MODEL}")
     print("=" * 50)
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)
