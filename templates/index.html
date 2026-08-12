@@ -2,237 +2,263 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CobaltAI — Setup</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
-        * { box-sizing: border-box; }
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
             min-height: 100vh;
             background: #0B0F17;
-            font-family: 'Inter', sans-serif;
-            color: #E9EDF6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #E9EDF6;
+            padding: 20px;
         }
-        .glass {
-            background: rgba(255,255,255,0.045);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.09);
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 40px 32px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.5);
         }
-        .glass-strong {
-            background: rgba(255,255,255,0.07);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255,255,255,0.09);
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
         }
-        .input-dark {
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .logo h1 span { color: #22E1FF; }
+        .logo p {
+            color: #92A0B8;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #92A0B8;
+            margin-bottom: 6px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
             color: #E9EDF6;
+            font-size: 14px;
             transition: border-color 0.2s;
-        }
-        .input-dark:focus {
             outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: #3D6BFF;
             box-shadow: 0 0 0 3px rgba(61,107,255,0.2);
         }
-        .input-dark::placeholder { color: #5C6980; }
-        .btn-primary {
-            background: linear-gradient(135deg, #3D6BFF, #22E1FF);
-            box-shadow: 0 6px 18px -4px rgba(61,107,255,0.55);
-            transition: transform 0.12s, box-shadow 0.12s;
+        .form-group input::placeholder {
+            color: #5C6980;
         }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px -4px rgba(34,225,255,0.6); }
-        .btn-primary:active { transform: scale(0.98); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .error-text { color: #EF4444; font-size: 13px; margin-top: 4px; }
-        .success-text { color: #22C55E; font-size: 13px; margin-top: 4px; }
-        .hidden { display: none !important; }
+        .form-group select option {
+            background: #1a1f2e;
+            color: #E9EDF6;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #3D6BFF, #22E1FF);
+            color: #06101f;
+            transition: transform 0.12s, box-shadow 0.12s;
+            margin-top: 6px;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(34,225,255,0.3);
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .error {
+            color: #EF4444;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+        .success {
+            color: #22C55E;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+        .hint {
+            font-size: 11px;
+            color: #5C6980;
+            margin-top: 14px;
+            text-align: center;
+        }
+        .hint a {
+            color: #22E1FF;
+            text-decoration: none;
+        }
+        .hint a:hover { text-decoration: underline; }
+        .warning {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.15);
+            border-radius: 10px;
+            font-size: 12px;
+            color: #FCA5A5;
+        }
+        .warning strong { color: #EF4444; }
     </style>
 </head>
 <body>
 
-    <!-- ====== AURORA BACKGROUND ====== -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute rounded-full blur-[90px] opacity-30 w-[520px] h-[520px] top-[-180px] left-[-120px] bg-[#3D6BFF] animate-pulse"></div>
-        <div class="absolute rounded-full blur-[90px] opacity-30 w-[460px] h-[460px] bottom-[-160px] right-[-100px] bg-[#7C6CFF] animate-pulse" style="animation-delay: 2s;"></div>
-        <div class="absolute rounded-full blur-[90px] opacity-20 w-[380px] h-[380px] top-[35%] left-[45%] bg-[#22E1FF] animate-pulse" style="animation-delay: 4s;"></div>
+<div class="card">
+    <div class="logo">
+        <h1>Cobalt<span>AI</span></h1>
+        <p>Masukkan API Key untuk mulai</p>
     </div>
 
-    <!-- ====== MAIN CARD ====== -->
-    <div class="relative z-10 w-full max-w-md px-4 py-6">
-        <div class="glass rounded-3xl p-8 shadow-2xl">
-
-            <!-- LOGO -->
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center gap-2.5">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-xl" style="background:linear-gradient(135deg,#3D6BFF,#22E1FF);box-shadow:0 0 24px rgba(34,225,255,0.3);">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#06101f"/></svg>
-                    </div>
-                    <span class="text-2xl font-bold tracking-tight" style="font-family:'Plus Jakarta Sans',sans-serif;">Cobalt<span style="color:#22E1FF;">AI</span></span>
-                </div>
-                <p class="text-sm text-[#92A0B8] mt-2">Masukkan API Key untuk memulai</p>
-            </div>
-
-            <!-- ====== FORM SETUP ====== -->
-            <form id="setupForm" onsubmit="return handleSetup(event)">
-                <div class="space-y-4">
-                    <!-- OpenRouter API Key -->
-                    <div>
-                        <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">🔑 OpenRouter API Key</label>
-                        <input 
-                            type="password" 
-                            id="apiKey" 
-                            placeholder="sk-or-v1-xxxxx" 
-                            class="input-dark w-full rounded-xl px-4 py-3 text-sm" 
-                            required 
-                        />
-                        <p class="text-xs text-[#5C6980] mt-1.5">
-                            Dapatkan di <a href="https://openrouter.ai/keys" target="_blank" class="text-[#22E1FF] hover:underline">openrouter.ai/keys</a>
-                        </p>
-                    </div>
-
-                    <!-- Model -->
-                    <div>
-                        <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">🧠 Model</label>
-                        <select id="model" class="input-dark w-full rounded-xl px-4 py-3 text-sm appearance-none">
-                            <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (Free)</option>
-                            <option value="meta-llama/llama-3.2-3b-instruct:free">Llama 3.2 3B (Free)</option>
-                            <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (Free)</option>
-                            <option value="microsoft/phi-3-mini-128k-instruct:free">Phi-3 Mini (Free)</option>
-                            <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
-                            <option value="openai/gpt-4o">GPT-4o</option>
-                            <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
-                            <option value="openai/o3-mini">OpenAI o3-mini</option>
-                        </select>
-                    </div>
-
-                    <!-- Style Website -->
-                    <div>
-                        <label class="block text-sm font-medium text-[#92A0B8] mb-1.5">🎨 Style Website</label>
-                        <select id="style" class="input-dark w-full rounded-xl px-4 py-3 text-sm appearance-none">
-                            <option value="dark-glass">Dark Glassmorphism (Default)</option>
-                            <option value="dark-minimal">Dark Minimalis</option>
-                            <option value="light-glass">Light Glassmorphism</option>
-                            <option value="cyberpunk">Cyberpunk Neon</option>
-                            <option value="forest">Forest Green</option>
-                            <option value="ocean">Ocean Blue</option>
-                            <option value="sunset">Sunset Orange</option>
-                            <option value="monochrome">Monochrome</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="errorMessage" class="error-text hidden mt-3"></div>
-                <div id="successMessage" class="success-text hidden mt-3"></div>
-
-                <!-- PERINGATAN -->
-                <div class="mt-4 p-3 rounded-xl text-xs" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#FCA5A5;">
-                    ⚠️ API Key disimpan di localStorage browser. Jangan bagikan ke siapa pun!
-                </div>
-
-                <button type="submit" id="setupBtn" class="btn-primary w-full rounded-xl py-3.5 text-sm font-semibold text-[#06101f] mt-4 transition">
-                    🚀 Mulai Chat
-                </button>
-            </form>
-
-            <!-- Footer -->
-            <p class="text-center text-xs text-[#5C6980] mt-6">
-                CobaltAI — Gunakan API Key Anda sendiri. Privasi terjaga.
-            </p>
+    <form id="setupForm">
+        <div class="form-group">
+            <label>🔑 OpenRouter API Key</label>
+            <input 
+                type="password" 
+                id="apiKey" 
+                placeholder="sk-or-v1-xxxxx" 
+                required 
+            />
         </div>
-    </div>
 
-    <script>
-        const setupForm = document.getElementById('setupForm');
-        const apiKeyInput = document.getElementById('apiKey');
-        const modelSelect = document.getElementById('model');
-        const styleSelect = document.getElementById('style');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const setupBtn = document.getElementById('setupBtn');
+        <div class="form-group">
+            <label>🧠 Model</label>
+            <select id="model">
+                <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (Free)</option>
+                <option value="meta-llama/llama-3.2-3b-instruct:free">Llama 3.2 3B (Free)</option>
+                <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (Free)</option>
+                <option value="microsoft/phi-3-mini-128k-instruct:free">Phi-3 Mini (Free)</option>
+                <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
+                <option value="openai/gpt-4o">GPT-4o</option>
+                <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+                <option value="openai/o3-mini">OpenAI o3-mini</option>
+                <option value="deepseek/deepseek-r1">DeepSeek R1</option>
+            </select>
+        </div>
 
-        // ====== CEK APAKAH UDAH ADA SETUP ======
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedApiKey = localStorage.getItem('openrouter_api_key');
-            const savedModel = localStorage.getItem('openrouter_model');
-            const savedStyle = localStorage.getItem('cobaltai_style');
+        <div id="errorMessage" class="error"></div>
+        <div id="successMessage" class="success"></div>
 
-            if (savedApiKey && savedModel) {
-                // Langsung redirect ke chat
-                window.location.href = '/chat';
-            }
-        });
+        <button type="submit" id="setupBtn" class="btn">🚀 Mulai Chat</button>
 
-        // ====== HANDLE SETUP ======
-        async function handleSetup(e) {
-            e.preventDefault();
+        <div class="warning">
+            ⚠️ <strong>Catatan:</strong> API Key disimpan di browser Anda. Jangan bagikan ke siapa pun!
+        </div>
 
-            const apiKey = apiKeyInput.value.trim();
-            const model = modelSelect.value;
-            const style = styleSelect.value;
+        <div class="hint">
+            Belum punya? <a href="https://openrouter.ai/keys" target="_blank">Dapatkan di sini</a>
+        </div>
+    </form>
+</div>
 
-            if (!apiKey) {
-                errorMessage.textContent = 'API Key tidak boleh kosong!';
-                errorMessage.classList.remove('hidden');
-                successMessage.classList.add('hidden');
-                return false;
-            }
+<script>
+    const form = document.getElementById('setupForm');
+    const apiKeyInput = document.getElementById('apiKey');
+    const modelSelect = document.getElementById('model');
+    const errorMsg = document.getElementById('errorMessage');
+    const successMsg = document.getElementById('successMessage');
+    const btn = document.getElementById('setupBtn');
 
-            if (!apiKey.startsWith('sk-or-v1-') && !apiKey.startsWith('sk-')) {
-                errorMessage.textContent = '⚠️ Format API Key tidak valid. Pastikan dari OpenRouter.';
-                errorMessage.classList.remove('hidden');
-                successMessage.classList.add('hidden');
-                return false;
-            }
-
-            // Disable button
-            setupBtn.disabled = true;
-            setupBtn.textContent = '⏳ Verifikasi...';
-            errorMessage.classList.add('hidden');
-            successMessage.classList.add('hidden');
-
-            try {
-                // TEST API Key dengan panggilan sederhana
-                const testResponse = await fetch('https://openrouter.ai/api/v1/auth/key', {
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`
-                    }
-                });
-
-                if (!testResponse.ok) {
-                    throw new Error('API Key tidak valid. Cek kembali.');
-                }
-
-                // Simpan ke localStorage
-                localStorage.setItem('openrouter_api_key', apiKey);
-                localStorage.setItem('openrouter_model', model);
-                localStorage.setItem('cobaltai_style', style);
-
-                successMessage.textContent = '✅ Setup berhasil! Mengalihkan ke chat...';
-                successMessage.classList.remove('hidden');
-
-                // Redirect ke chat
-                setTimeout(() => {
-                    window.location.href = '/chat';
-                }, 1500);
-
-            } catch (error) {
-                errorMessage.textContent = error.message || 'Gagal verifikasi API Key. Coba lagi.';
-                errorMessage.classList.remove('hidden');
-                setupBtn.disabled = false;
-                setupBtn.textContent = '🚀 Mulai Chat';
-            }
-
-            return false;
+    // Cek apakah udah ada setup sebelumnya
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedKey = localStorage.getItem('openrouter_api_key');
+        const savedModel = localStorage.getItem('openrouter_model');
+        if (savedKey && savedModel) {
+            window.location.href = '/chat';
         }
-    </script>
+    });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const apiKey = apiKeyInput.value.trim();
+        const model = modelSelect.value;
+
+        // Validasi
+        if (!apiKey) {
+            errorMsg.textContent = '⚠️ API Key tidak boleh kosong!';
+            errorMsg.style.display = 'block';
+            successMsg.style.display = 'none';
+            return;
+        }
+
+        if (!apiKey.startsWith('sk-') && !apiKey.startsWith('sk-or-v1-')) {
+            errorMsg.textContent = '⚠️ Format API Key tidak valid. Cek dari OpenRouter.';
+            errorMsg.style.display = 'block';
+            successMsg.style.display = 'none';
+            return;
+        }
+
+        // Disable button
+        btn.disabled = true;
+        btn.textContent = '⏳ Memeriksa...';
+        errorMsg.style.display = 'none';
+        successMsg.style.display = 'none';
+
+        try {
+            // Test API Key
+            const testRes = await fetch('https://openrouter.ai/api/v1/auth/key', {
+                headers: { 'Authorization': `Bearer ${apiKey}` }
+            });
+
+            if (!testRes.ok) {
+                throw new Error('API Key tidak valid. Cek kembali.');
+            }
+
+            // Simpan ke localStorage
+            localStorage.setItem('openrouter_api_key', apiKey);
+            localStorage.setItem('openrouter_model', model);
+
+            successMsg.textContent = '✅ Setup berhasil! Mengalihkan...';
+            successMsg.style.display = 'block';
+
+            setTimeout(() => {
+                window.location.href = '/chat';
+            }, 1200);
+
+        } catch (err) {
+            errorMsg.textContent = '❌ ' + err.message;
+            errorMsg.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = '🚀 Mulai Chat';
+        }
+    });
+</script>
 
 </body>
 </html>
